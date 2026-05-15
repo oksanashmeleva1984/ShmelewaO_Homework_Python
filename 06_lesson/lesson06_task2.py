@@ -8,14 +8,19 @@ from selenium.webdriver.support.ui import WebDriverWait
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()
                                                 ))
 
-WebDriverWait(driver, 40).until(
-        EC.text_to_be_present_in_element((By.ID, "text"), "Done!")
-    )
+driver.get("http://uitestingplayground.com/textinput")
 
-images = driver.find_elements(By.CSS_SELECTOR, "#image-container img")
+element = driver.find_element(By.CSS_SELECTOR, "#newButtonName")
+element.send_keys("SkyPro")
 
-third_image_src = images[2].get_attribute("src")
+updating_button = driver.find_element(By.CSS_SELECTOR, "#updatingButton")
 
-print(third_image_src)
+updating_button.click()
+
+WebDriverWait(driver, 10).until(
+    EC.text_to_be_present_in_element((By.ID, "updatingButton"), "SkyPro")
+)
+
+print(updating_button.text)
 
 driver.quit()
